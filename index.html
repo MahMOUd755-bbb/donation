@@ -1,89 +1,333 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support — Exam Gate</title>
 <style>
-.dw { max-width: 460px; margin: 1.5rem auto; font-family: var(--font-sans); }
-.dw-head { background: #1a1a2e; border-radius: 16px 16px 0 0; padding: 2rem 2rem 1.6rem; text-align: center; }
-.dw-body { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-top: none; border-radius: 0 0 16px 16px; padding: 1.25rem; }
-.dw-card { border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; border: 0.5px solid transparent; transition: border-color 0.15s; }
-.dw-card:hover { border-color: rgba(255,255,255,0.15); }
-.dw-card-vf { background: #16213e; }
-.dw-card-ip { background: #0f3460; }
-.dw-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.dw-num { font-size: 20px; font-weight: 500; letter-spacing: 0.06em; color: #fff; margin: 0; }
-.dw-lbl { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin: 0 0 3px; }
-.dw-btn { margin-left: auto; background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 7px 14px; font-size: 12px; color: rgba(255,255,255,0.85); cursor: pointer; display: flex; align-items: center; gap: 6px; flex-shrink: 0; transition: background 0.15s; }
-.dw-btn:hover { background: rgba(255,255,255,0.18); }
-.dw-btn:active { transform: scale(0.97); }
-.dw-divider { display: flex; align-items: center; gap: 10px; margin: 1rem 0; }
-.dw-divider span { font-size: 11px; color: var(--color-text-tertiary); letter-spacing: 0.06em; white-space: nowrap; }
-.dw-divider hr { flex: 1; border: none; border-top: 0.5px solid var(--color-border-tertiary); }
-.dw-footer { text-align: center; font-size: 12px; color: var(--color-text-tertiary); margin-top: 1rem; display: flex; align-items: center; justify-content: center; gap: 6px; }
-.pulse { width: 64px; height: 64px; border-radius: 50%; background: rgba(127,119,221,0.15); border: 1.5px solid rgba(127,119,221,0.4); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; animation: pulse 2.4s ease-in-out infinite; }
-@keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.08);opacity:0.75} }
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap');
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  :root{
+    --cyan:#00f5ff;
+    --magenta:#ff00aa;
+    --green:#00ff88;
+    --gold:#ffd700;
+    --gold2:#ffaa00;
+    --bg:#060810;
+    --card-bg:rgba(0,245,255,0.04);
+    --border:rgba(0,245,255,0.15);
+  }
+
+  body{
+    background:var(--bg);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    font-family:'Rajdhani',sans-serif;
+    overflow-x:hidden;
+    position:relative;
+    padding: 40px 20px;
+  }
+
+  .grid-bg{
+    position:fixed;inset:0;
+    background-image:
+      linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);
+    background-size:50px 50px;
+    animation:gridMove 20s linear infinite;
+    pointer-events:none;
+  }
+  @keyframes gridMove{0%{background-position:0 0;}100%{background-position:50px 50px;}}
+
+  .orb{position:fixed;border-radius:50%;filter:blur(90px);opacity:0.15;pointer-events:none;animation:orbFloat 8s ease-in-out infinite;}
+  .orb1{width:500px;height:500px;background:var(--gold);top:-150px;left:-150px;animation-delay:0s;}
+  .orb2{width:350px;height:350px;background:var(--magenta);bottom:-100px;right:-100px;animation-delay:-3s;}
+  .orb3{width:250px;height:250px;background:var(--cyan);top:40%;left:55%;animation-delay:-5s;}
+  @keyframes orbFloat{0%,100%{transform:translate(0,0);}50%{transform:translate(25px,-25px);}}
+
+  .scanlines{position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,245,255,0.012) 2px,rgba(0,245,255,0.012) 4px);pointer-events:none;z-index:10;}
+
+  .page{width:min(520px,95vw);position:relative;z-index:5;}
+
+  /* HEADER */
+  .header{text-align:center;margin-bottom:40px;animation:fadeDown 0.7s ease both;}
+  @keyframes fadeDown{from{opacity:0;transform:translateY(-24px);}to{opacity:1;transform:translateY(0);}}
+  .header-label{font-size:10px;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;opacity:0.8;}
+  .header h1{font-family:'Orbitron',monospace;font-size:clamp(22px,5vw,40px);font-weight:900;color:white;letter-spacing:3px;}
+  .header h1 span{background:linear-gradient(135deg,var(--gold),var(--gold2),var(--magenta));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .header-line{width:100px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:12px auto 0;animation:linePulse 2.5s ease-in-out infinite;}
+  @keyframes linePulse{0%,100%{opacity:0.4;width:60px;}50%{opacity:1;width:130px;}}
+
+  .sub-label{text-align:center;font-size:13px;letter-spacing:2px;color:rgba(255,255,255,0.4);margin-bottom:36px;animation:fadeDown 0.8s ease 0.1s both;}
+
+  /* MAIN CARD */
+  .main-card{
+    background:rgba(255,215,0,0.03);
+    border:1px solid rgba(255,215,0,0.18);
+    border-radius:2px;
+    padding:36px 32px;
+    position:relative;
+    clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px));
+    animation:cardIn 0.7s ease 0.2s both;
+  }
+  @keyframes cardIn{from{opacity:0;transform:translateY(20px) scale(0.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+
+  .main-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,215,0,0.06) 0%,transparent 50%);pointer-events:none;}
+  .main-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),rgba(255,140,0,0.6),transparent);}
+
+  .corner{position:absolute;width:14px;height:14px;}
+  .c-tl{top:8px;left:8px;border-top:1px solid var(--gold);border-left:1px solid var(--gold);}
+  .c-br{bottom:8px;right:8px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);}
+  .c-tr{top:8px;right:8px;border-top:1px solid rgba(255,215,0,0.3);border-right:1px solid rgba(255,215,0,0.3);}
+  .c-bl{bottom:8px;left:8px;border-bottom:1px solid rgba(255,215,0,0.3);border-left:1px solid rgba(255,215,0,0.3);}
+
+  /* HEART ICON */
+  .heart-wrap{text-align:center;margin-bottom:28px;}
+  .heart-ring{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:72px;height:72px;border-radius:50%;
+    border:1px solid rgba(255,215,0,0.3);
+    background:rgba(255,215,0,0.06);
+    position:relative;
+    animation:heartbeat 2s ease-in-out infinite;
+  }
+  @keyframes heartbeat{0%,100%{transform:scale(1);}14%{transform:scale(1.1);}28%{transform:scale(1);}42%{transform:scale(1.07);}56%{transform:scale(1);}}
+  .heart-ring::before{
+    content:'';position:absolute;inset:-8px;border-radius:50%;
+    border:1px solid rgba(255,215,0,0.12);
+    animation:ringPulse 2s ease-in-out infinite;
+  }
+  @keyframes ringPulse{0%,100%{opacity:0.5;transform:scale(1);}50%{opacity:0,transform:scale(1.1);}}
+  .heart-emoji{font-size:30px;filter:drop-shadow(0 0 10px rgba(255,215,0,0.5));}
+
+  .section-title{
+    font-family:'Orbitron',monospace;font-size:10px;font-weight:700;
+    letter-spacing:4px;text-transform:uppercase;
+    color:rgba(255,215,0,0.6);margin-bottom:16px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .section-title::before,.section-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(255,215,0,0.3),transparent);}
+  .section-title::before{background:linear-gradient(90deg,transparent,rgba(255,215,0,0.3));}
+
+  /* PAYMENT METHODS */
+  .methods{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;}
+
+  .method-card{
+    position:relative;
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:2px;
+    padding:18px 20px;
+    display:flex;align-items:center;gap:16px;
+    clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+    cursor:pointer;
+    transition:border-color 0.25s,background 0.25s,transform 0.2s;
+    overflow:hidden;
+  }
+  .method-card::after{
+    content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,215,0,0.06),transparent);
+    transition:left 0.5s ease;pointer-events:none;
+  }
+  .method-card:hover{border-color:rgba(255,215,0,0.4);background:rgba(255,215,0,0.05);transform:translateX(4px);}
+  .method-card:hover::after{left:100%;}
+
+  .method-icon-wrap{
+    width:44px;height:44px;border-radius:2px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;flex-shrink:0;position:relative;
+    clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+  }
+  .icon-vf{background:rgba(220,20,60,0.15);border:1px solid rgba(220,20,60,0.3);}
+  .icon-ip{background:rgba(0,120,255,0.12);border:1px solid rgba(0,120,255,0.25);}
+
+  .method-info{flex:1;}
+  .method-name{
+    font-family:'Orbitron',monospace;font-size:11px;font-weight:700;
+    letter-spacing:3px;color:white;text-transform:uppercase;margin-bottom:4px;
+  }
+  .method-type{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.35);text-transform:uppercase;}
+
+  .method-number{
+    font-family:'Orbitron',monospace;font-size:16px;font-weight:700;
+    letter-spacing:2px;color:var(--gold);
+    text-shadow:0 0 15px rgba(255,215,0,0.3);
+    display:flex;align-items:center;gap:10px;
+    flex-shrink:0;
+  }
+
+  /* COPY BUTTON */
+  .copy-btn{
+    background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.25);
+    width:28px;height:28px;border-radius:2px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:12px;transition:all 0.2s;
+    flex-shrink:0;
+  }
+  .copy-btn:hover{background:rgba(255,215,0,0.2);border-color:rgba(255,215,0,0.5);}
+  .copy-btn.copied{background:rgba(0,255,136,0.15);border-color:rgba(0,255,136,0.4);}
+
+  /* DIVIDER */
+  .divider{
+    height:1px;
+    background:linear-gradient(90deg,transparent,rgba(255,215,0,0.15),rgba(255,140,0,0.1),transparent);
+    margin:24px 0;
+  }
+
+  /* NOTE */
+  .note{
+    text-align:center;font-size:12px;letter-spacing:1.5px;
+    color:rgba(255,255,255,0.25);line-height:1.8;
+  }
+  .note strong{color:rgba(255,215,0,0.6);font-weight:600;}
+
+  /* TOAST */
+  .toast{
+    position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:rgba(0,255,136,0.12);border:1px solid rgba(0,255,136,0.35);
+    padding:10px 24px;border-radius:2px;
+    font-family:'Orbitron',monospace;font-size:10px;letter-spacing:3px;
+    color:var(--green);text-transform:uppercase;
+    opacity:0;pointer-events:none;transition:all 0.3s ease;z-index:100;
+    clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* BACK BUTTON */
+  .back-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    margin-top:28px;padding:10px 20px;
+    background:transparent;border:1px solid rgba(0,245,255,0.2);
+    border-radius:2px;cursor:pointer;
+    font-family:'Orbitron',monospace;font-size:9px;letter-spacing:3px;
+    color:rgba(0,245,255,0.5);text-transform:uppercase;text-decoration:none;
+    transition:all 0.25s;
+    clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+  }
+  .back-btn:hover{border-color:rgba(0,245,255,0.5);color:var(--cyan);background:rgba(0,245,255,0.05);}
+
+  /* STATUS */
+  .status-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;font-size:10px;letter-spacing:3px;color:rgba(0,245,255,0.3);text-transform:uppercase;}
+  .dot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 1.5s ease-in-out infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
+
+  @media(max-width:480px){
+    .main-card{padding:24px 18px;}
+    .method-card{flex-wrap:wrap;gap:10px;}
+    .method-number{font-size:14px;}
+  }
 </style>
+</head>
+<body>
 
-<div class="dw">
-  <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Donation window — VF Cash and InstaPay payment details</h2>
+<div class="grid-bg"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+<div class="scanlines"></div>
 
-  <div class="dw-head">
-    <div class="pulse">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#AFA9EC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-    </div>
-    <p style="margin:0 0 5px; font-size:20px; font-weight:500; color:#fff;">Make a donation</p>
-    <p style="margin:0; font-size:13px; color:rgba(255,255,255,0.4);">Your support means the world to us</p>
+<div class="page">
+
+  <div class="header">
+    <div class="header-label">Exam Gate · Support</div>
+    <h1>Fund the <span>Mission</span></h1>
+    <div class="header-line"></div>
   </div>
 
-  <div class="dw-body">
-    <div class="dw-divider"><hr><span>choose your method</span><hr></div>
+  <div class="sub-label">Your support keeps the system running</div>
 
-    <div class="dw-card dw-card-vf">
-      <div class="dw-icon" style="background:rgba(95,74,183,0.35);">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#AFA9EC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+  <div class="main-card">
+    <div class="corner c-tl"></div>
+    <div class="corner c-tr"></div>
+    <div class="corner c-br"></div>
+    <div class="corner c-bl"></div>
+
+    <div class="heart-wrap">
+      <div class="heart-ring">
+        <span class="heart-emoji">💛</span>
       </div>
-      <div style="flex:1;min-width:0;">
-        <p class="dw-lbl">VF Cash</p>
-        <p class="dw-num">01093566524</p>
-      </div>
-      <button class="dw-btn" onclick="doCopy('01093566524',this)">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        Copy
-      </button>
     </div>
 
-    <div class="dw-card dw-card-ip">
-      <div class="dw-icon" style="background:rgba(29,158,117,0.28);">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5DCAA5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16l-4-4 4-4"/><path d="M3 12h11"/><path d="M17 8l4 4-4 4"/><path d="M21 12H10"/></svg>
+    <div class="section-title">Payment Channels</div>
+
+    <div class="methods">
+
+      <!-- VF Cash -->
+      <div class="method-card">
+        <div class="method-icon-wrap icon-vf">📱</div>
+        <div class="method-info">
+          <div class="method-name">VF Cash</div>
+          <div class="method-type">Vodafone · Mobile Wallet</div>
+        </div>
+        <div class="method-number" id="vf-num">01093566524</div>
+        <div class="copy-btn" id="vf-copy" onclick="copyNum('01093566524','vf-copy')" title="Copy number">⧉</div>
       </div>
-      <div style="flex:1;min-width:0;">
-        <p class="dw-lbl">InstaPay</p>
-        <p class="dw-num">01110417490</p>
+
+      <!-- Instapay -->
+      <div class="method-card">
+        <div class="method-icon-wrap icon-ip">⚡</div>
+        <div class="method-info">
+          <div class="method-name">Instapay</div>
+          <div class="method-type">InstaPay · Instant Transfer</div>
+        </div>
+        <div class="method-number" id="ip-num">01110417490</div>
+        <div class="copy-btn" id="ip-copy" onclick="copyNum('01110417490','ip-copy')" title="Copy number">⧉</div>
       </div>
-      <button class="dw-btn" onclick="doCopy('01110417490',this)">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        Copy
-      </button>
+
     </div>
 
-    <div class="dw-footer">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      Safe &amp; secure · Copy the number and open your app
+    <div class="divider"></div>
+
+    <div class="note">
+      Every contribution — big or small — helps build<br>
+      <strong>better tools</strong> for every student in the system.
     </div>
+
   </div>
+
+  <div style="text-align:center;">
+    <a href="gate122.html" class="back-btn">← Return to Gate</a>
+  </div>
+
+  <div class="status-row">
+    <div class="dot"></div>
+    Secure · 2 active channels
+  </div>
+
 </div>
 
+<div class="toast" id="toast">Copied to clipboard</div>
+
 <script>
-function doCopy(num, btn) {
-  navigator.clipboard.writeText(num).then(() => {
-    const orig = btn.innerHTML;
-    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
-    btn.style.background = 'rgba(93,202,165,0.25)';
-    btn.style.borderColor = 'rgba(93,202,165,0.5)';
-    btn.style.color = '#5DCAA5';
-    setTimeout(() => {
-      btn.innerHTML = orig;
-      btn.style.background = '';
-      btn.style.borderColor = '';
-      btn.style.color = '';
+function copyNum(num, btnId){
+  navigator.clipboard.writeText(num).then(()=>{
+    const btn = document.getElementById(btnId);
+    btn.classList.add('copied');
+    btn.textContent = '✓';
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(()=>{
+      toast.classList.remove('show');
+      btn.classList.remove('copied');
+      btn.textContent = '⧉';
     }, 2000);
+  }).catch(()=>{
+    const ta = document.createElement('textarea');
+    ta.value = num;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'), 2000);
   });
 }
 </script>
+</body>
+</html>
